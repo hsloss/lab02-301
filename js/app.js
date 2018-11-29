@@ -2,8 +2,11 @@ const $main = $('main')
 const $selector = $('#image-selector')
 const allImages = []
 const allKeywords = []
+const $click = $('#click')
 
 const apiURL = 'https://raw.githubusercontent.com/hsloss/lab02-301/setup/data/page-1.json'
+
+const apiURL2 = 
 
 const HornedCreatures = function(image_url, title, description, keyword, horns){
   this.url = image_url
@@ -11,6 +14,16 @@ const HornedCreatures = function(image_url, title, description, keyword, horns){
   this.description = description
   this.keyword = keyword
   this.horns = horns
+}
+
+const countInArray = function(arr, what){
+  let count = 0
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === what) {
+      count++
+    }
+  }
+  return count;
 }
 
 HornedCreatures.prototype.displayCreatures = function() {
@@ -29,16 +42,6 @@ $($selector).on('change', () => {
   $(`.${event.target.value}`).show()
 })
 
-let countInArray = function(arr, what){
-  let count = 0
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === what) {
-      count++
-    }
-  }
-  return count;
-}
-
 $.getJSON(apiURL)
   .then(response => {
     response.forEach(creature => {
@@ -52,3 +55,6 @@ $.getJSON(apiURL)
     })
   })
 
+$($click).on('click', () => {
+  $.getJSON(apiURL2)
+})
