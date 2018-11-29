@@ -1,6 +1,7 @@
 const $main = $('main')
 const $selector = $('#image-selector')
 const allImages = []
+const allKeywords = []
 
 const apiURL = 'https://raw.githubusercontent.com/hsloss/lab02-301/setup/data/page-1.json'
 
@@ -15,6 +16,7 @@ const HornedCreatures = function(image_url, title, description, keyword, horns){
 HornedCreatures.prototype.displayCreatures = function() {
   const $cloneCreature = $('#photo-template').clone()
   $main.append($cloneCreature)
+  $cloneCreature.attr('class', this.keyword)
   $cloneCreature.find('img').attr('class', 'images')
   $cloneCreature.find('img').attr('class', this.keyword)
   $cloneCreature.find('img').attr('src', this.url)
@@ -24,8 +26,18 @@ HornedCreatures.prototype.displayCreatures = function() {
 
 $($selector).on('change', () => {
   $('section').hide()
-  $(`#${event.target.value}`).show()
+  $(`.${event.target.value}`).show()
 })
+
+let countInArray = function(arr, what){
+  let count = 0
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === what) {
+      count++
+    }
+  }
+  return count;
+}
 
 $.getJSON(apiURL)
   .then(response => {
@@ -33,5 +45,10 @@ $.getJSON(apiURL)
       let newCreature = new HornedCreatures (creature.image_url, creature.title, creature.description, creature.keyword, creature.horns)
       newCreature.displayCreatures()
       allImages.push(newCreature)
+      allKeywords.push(newCreature.keyword)
+      if(countInArray(allKeywords, newCreature.keyword) === 1){
+        $selector.append(`<option>${newCreature.keyword}</option>`)
+      }
     })
   })
+
