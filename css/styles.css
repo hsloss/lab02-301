@@ -1,0 +1,27 @@
+section {
+  margin: 2em;
+  width: 15%;
+  height: 100px;
+  float: left;
+}
+
+img {
+  width: 100px;
+  align-content: center;
+  float: left;
+}
+
+h6 {
+  align-content: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  align-content: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+select {
+    align-content: center;
+    font-family: 'Roboto', sans-serif;
+}
