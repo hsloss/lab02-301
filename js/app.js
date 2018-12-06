@@ -26,11 +26,6 @@ HornedCreatures.prototype.displayCreatures = function() {
   $cloneCreature.find('h6').text(this.title)
 }
 
-$($selector).on('change', () => {
-  $('section').hide()
-  $(`.${event.target.value}`).show()
-})
-
 let countInArray = function(arr, what){
   let count = 0
   for (let i = 0; i < arr.length; i++) {
@@ -41,21 +36,8 @@ let countInArray = function(arr, what){
   return count;
 }
 
-$.getJSON(apiURL)
-  .then(response => {
-    response.forEach(creature => {
-      let newCreature = new HornedCreatures (creature.image_url, creature.title, creature.description, creature.keyword, creature.horns)
-      newCreature.displayCreatures()
-      allImages.push(newCreature)
-      allKeywords.push(newCreature.keyword)
-      if(countInArray(allKeywords, newCreature.keyword) === 1){
-        $selector.append(`<option>${newCreature.keyword}</option>`)
-      }
-    })
-  })
-
-$($click).on('click', () => {
-  $.getJSON(apiURL2)
+let getJSONfunc = function(url) {
+  $.getJSON(url)
     .then(response => {
       response.forEach(creature => {
         let newCreature = new HornedCreatures (creature.image_url, creature.title, creature.description, creature.keyword, creature.horns)
@@ -67,4 +49,24 @@ $($click).on('click', () => {
         }
       })
     })
+}
+
+let clicked = 0
+
+getJSONfunc(apiURL)
+
+$($click).on('click', () => {
+  clicked++
+  $('main').empty()
+  if (clicked % 2 === 1) {
+    getJSONfunc(apiURL2)
+  }
+  else {
+    getJSONfunc(apiURL)
+  }
+})
+
+$($selector).on('change', () => {
+  $('section').hide()
+  $(`.${event.target.value}`).show()
 })
